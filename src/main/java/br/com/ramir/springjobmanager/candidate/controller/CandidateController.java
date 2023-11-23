@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ramir.springjobmanager.candidate.Candidate;
 import br.com.ramir.springjobmanager.candidate.CandidateRepository;
+import br.com.ramir.springjobmanager.exceptions.UserFoundException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -19,6 +20,11 @@ public class CandidateController {
     
     @PostMapping("/")
     public Candidate create(@Valid @RequestBody Candidate candidate){
+
+        this.candidateRepository.findByUsernameOrEmail(candidate.getUsername(), candidate.getEmail())
+        .ifPresent(user -> {
+            throw new UserFoundException();
+        });
         return this.candidateRepository.save(candidate);
     }
 }
