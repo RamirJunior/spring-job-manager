@@ -1,6 +1,7 @@
 package br.com.ramir.springjobmanager.modules.company.useCases;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.ramir.springjobmanager.exceptions.UserFoundException;
@@ -13,6 +14,9 @@ public class CreateCompanyUseCase {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public Company execute(Company company) {
 
         this.companyRepository
@@ -20,6 +24,9 @@ public class CreateCompanyUseCase {
                 .ifPresent((user) -> {
                     throw new UserFoundException();
                 });
+
+        var password = passwordEncoder.encode(company.getPassword());
+        company.setPassword(password);
 
         return this.companyRepository.save(company);
     }
