@@ -1,4 +1,4 @@
-package br.com.ramir.springjobmanager.candidate;
+package br.com.ramir.springjobmanager.modules.company.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,14 +15,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
+@Entity
 @Data
-@Entity(name = "candidate")
-public class Candidate {
-
+public class Company {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
 
     @NotBlank
     @Pattern(regexp = "\\S+", message = "O campo login não deve conter espaço.")
@@ -33,9 +32,12 @@ public class Candidate {
 
     @Length(min = 10, max = 100, message = "O campo senha deve conter entre 10 e 100 caracteres")
     private String password;
+
+    private String website;
+    private String name;
     private String description;
-    private String curriculum;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
 }
