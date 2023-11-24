@@ -9,17 +9,17 @@ import br.com.ramir.springjobmanager.modules.company.repositories.CompanyReposit
 
 @Service
 public class CreateCompanyUseCase {
-    
+
     @Autowired
     private CompanyRepository companyRepository;
 
-    public Company execute(Company company){
+    public Company execute(Company company) {
 
         this.companyRepository
-        .findByUsernameOrEmail(company.getUsername(), company.getEmail())
-        .ifPresent(user ->{
-            throw new UserFoundException();
-        });
+                .findByUsernameOrEmail(company.getUsername(), company.getEmail())
+                .ifPresent((user) -> {
+                    throw new UserFoundException();
+                });
 
         return this.companyRepository.save(company);
     }
