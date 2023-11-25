@@ -28,5 +28,4 @@ public class AuthCompanyController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
 }
